@@ -1,0 +1,20 @@
+{
+  "name": "splwebapi",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npx babel src --out-dir dist --presets=@babel/env --watch"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "morgan": "~1.9.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0"
+  }
+}
