@@ -8,16 +8,20 @@
         <item url="file://$PROJECT_DIR$/dist/routes/index.js" />
         <item url="file://$PROJECT_DIR$/dist/routes/term.js" />
         <item url="file://$PROJECT_DIR$/dist/routes/users.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/app.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/test.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/dist/person.js" />
       <root url="file://$PROJECT_DIR$/dist/app.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/test.js" />
       <root url="file://$PROJECT_DIR$/dist/bin/www.js" />
       <root url="file://$PROJECT_DIR$/dist/models/person.js" />
       <root url="file://$PROJECT_DIR$/dist/routes/index.js" />
       <root url="file://$PROJECT_DIR$/dist/routes/term.js" />
       <root url="file://$PROJECT_DIR$/dist/routes/users.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/app.js" />
     </CLASSES>
     <SOURCES />
   </library>

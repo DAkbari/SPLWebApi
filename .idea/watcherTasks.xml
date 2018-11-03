@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectTasksOptions">
     <TaskOptions isEnabled="true">
-      <option name="arguments" value="$FilePathRelativeToProjectRoot$ --source-maps --out-file dist\$FileDirRelativeToProjectRoot$\$FileNameWithoutExtension$.js --presets @babel/env" />
+      <option name="arguments" value="$FilePath$ --out-dir $ProjectFileDir$\dist\$FileDirName$ --source-maps --presets @babel/preset-env" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
       <option name="exitCodeBehavior" value="ERROR" />
@@ -18,7 +18,7 @@
       <option name="runOnExternalChanges" value="true" />
       <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="false" />
-      <option name="workingDir" value="$ContentRoot$" />
+      <option name="workingDir" value="$ContentRoot$/src" />
       <envs />
     </TaskOptions>
   </component>

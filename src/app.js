@@ -3,9 +3,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./dist/routes/index');
-var usersRouter = require('./dist/routes/users');
-var termRouter = require('./dist/routes/term');
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var termRouter = require('./routes/term');
 
 var app = express();
 
@@ -22,5 +22,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/core/term', termRouter);
 
+console.log(31)
 module.exports = app;
 

@@ -31,5 +31,4 @@ router.post('/data', function (req, res, next) {
   }]);
 });
 module.exports = router;
-
 //# sourceMappingURL=term.js.map

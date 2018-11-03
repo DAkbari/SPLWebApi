@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx babel src --out-dir dist --presets=@babel/env --watch"
+    "start": "npx babel src --out-dir dist --presets=@babel/env --watch",
+    "build": "node_modules\\.bin\\babel src --out-dir dist --source-maps --presets @babel/preset-env"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
