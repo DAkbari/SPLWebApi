@@ -1,32 +1,44 @@
-var sqlConfig = require('../sql/sqlConfig');
+const sqlConfig = require('./sqlConfig');
 const sql = require('mssql');
 
-module.exports.execSQL =
-    async function (command) {
+module.exports = {
+    query: async function (command, ...params) {
         try {
-            let pool = await sql.connect(sqlConfig.config);
-            // let result1 = await pool.request()
-            //     .input('input_parameter', sql.Int, value)
-            //     .query('select * from mytable where id = @input_parameter');
+            let pool = await sql.connect(sqlConfig);
+            let request = pool.request();
+            for (index in params) {
+                request = request.input('P' + index, sql.NVarChar(8000), params[index])
+            }
+            let result1 = await request.query(command);
 
-            let result1 = await pool.request()
-                .query(command);
-
-            return result1;
-            // Stored procedure
-
-            // let result2 = await pool.request()
-            //     .input('input_parameter', sql.Int, value)
-            //     .output('output_parameter', sql.VarChar(50))
-            //     .execute('procedure_name')
-
-            // console.dir(result2)
+            sql.close();
+            return result1.recordset;
         } catch (err) {
-            // ... error checks
+            console.error(err);
         }
 
 
-    sql.on('error', err => {
-        // ... error handler
-    })
+    },
+    exec: async function (command, ...params) {
+        try {
+            // Stored procedure
+            let pool = await sql.connect(sqlConfig);
+            let request = pool.request();
+            for (index in params) {
+                request = request.input(params[index][0], sql.NVarChar(8000), params[index][1])
+            }
+            let result1 = await request.execute(command);
+            sql.close();
+            return result1.recordset;
+        } catch (err) {
+            console.error(err);
+        }
+
+
+    }
+
+
 }
+sql.on('error', err => {
+    // ... error handler
+})
