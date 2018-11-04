@@ -9,10 +9,11 @@ router.post('/data', function (req, res, next) {
     res.send([{test: 1, test2: 2}, {test: 4, test2: 5}]);
 });
 /* GET terms listing. */
-router.get('/data', function (req, res, next) {
+router.get('/data', async function (req, res, next) {
     var p = new person();
-    sqlInterface.execSQL("select * FROM [kowsar_his].[ATD].[PatientInfo]").then(res.send);
-    // res.send([{test: p.hello(), test2: 2}, {test: 4, test2: 5}]);
+    let x1 = await sqlInterface.exec("Core.Term_Sp",['kind','SelectTree'],['ID','0']);
+    let x2 = await sqlInterface.query("select * FROM [kowsar_his].[ATD].[PatientInfo] where FirstName = @P0 and PatientCode = @P1",'حسن',8700001);
+    res.send(x);
 });
 
 module.exports = router;
