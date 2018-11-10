@@ -12,9 +12,9 @@ router.post('/data', function (req, res, next) {
 /* GET terms listing. */
 router.get('/data',require('connect-ensure-login').ensureLoggedIn(), async function (req, res, next) {
     // var p = new person();
-     let x1 = await sqlInterface.exec("Core.Term_Sp",['kind','SelectTree'],['ID','0']);
-     //let x2 = await sqlInterface.query("select * FROM [kowsar_his].[ATD].[PatientInfo] where FirstName = @P0 and PatientCode = @P1",'حسن',8700001);
-     res.send(x1);
+     //let x1 = await sqlInterface.exec("Core.Term_Sp",['kind','SelectTree'],['ID','0']);
+     let x2 = await sqlInterface.query("select * FROM [kowsar_his].[ATD].[PatientInfo] where FirstName = @P0 and PatientCode = @P1",'حسن',8700001);
+     res.send(x2);
 
 
 
