@@ -4,7 +4,8 @@ module.exports = {
     server: '172.16.0.109',
     database: 'kowsarSPL',
     options: {
-        encrypt: false // Use this if you're on Windows Azure
+        // Use this if you're on Windows Azure
+        encrypt: false
     }
 };
 
