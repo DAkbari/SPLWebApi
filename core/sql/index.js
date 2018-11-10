@@ -39,6 +39,6 @@ module.exports = {
 
 
 }
-sql.on('error', err => {
+mssql.on('error', err => {
     // ... error handler
 })
