@@ -4,6 +4,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 
+var swaggerUi = require('swagger-ui-express');
+var swaggerDocument = require('./swagger.json');
+
 var authRouter = require('./routes/auth');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,10 +22,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRouter);
-app.use('/auth', authRouter);
-app.use('/users', usersRouter);
-app.use('/core/term', termRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/term', termRouter);
 
 module.exports = app;
 

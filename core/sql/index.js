@@ -11,10 +11,11 @@ module.exports = {
             }
             let result1 = await request.query(command);
 
-            mssql.close();
             return result1.recordset;
         } catch (err) {
             console.error(err);
+        } finally {
+            mssql.close();
         }
 
 
@@ -28,12 +29,14 @@ module.exports = {
                 request = request.input(params[index][0], mssql.NVarChar(8000), params[index][1])
             }
             let result1 = await request.execute(command);
-            mssql.close();
             return result1.recordset;
         } catch (err) {
             console.error(err);
         }
+        finally {
+            mssql.close();
 
+        }
 
     }
 
