@@ -21,7 +21,6 @@ router.post('/register', function (req, res) {
 router.post('/login', async function (req, res) {
     //find req.body.user from database
     //should read user from database
-    var user = {password: req.body.password, id: req.body.user};
     let dbUser = await db.exec("Authentication_sp", ['kind', 'authenticate'], ['user', req.body.user], ['password', req.body.password]);
     if (dbUser == null || dbUser.length == 0) return res.status(401).send({auth: false, token: null});
     else {
