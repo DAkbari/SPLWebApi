@@ -107,7 +107,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 router.get('/test', async function (req, res, next) {
-    await sleep(10000)
+    await sleep(10000);
     res.send({a:1,b:2});
 });
 router.get('/emp', async function (req, res, next) {
@@ -115,7 +115,7 @@ router.get('/emp', async function (req, res, next) {
     res.send(emps);
 });
 router.get('/:id', async function (req, res, next) {
-    let structure = await sql.exec("SPL.Structure_sp",
+    let  structure = await sql.exec("SPL.Structure_sp",
         ['kind', 'DataDictionaryJson'],
         ['userid', '5371'],
         ['menuid', req.params.id],

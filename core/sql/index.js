@@ -21,20 +21,27 @@ module.exports = {
 
     },
     exec: async function (command, ...params) {
-        try {
             // Stored procedure
-            let pool = await mssql.connect(sqlConfig);
-            let request = pool.request();
-            for (let index in params) {
-                request = request.input(params[index][0], mssql.NVarChar(8000), params[index][1])
+            const pool = new mssql.ConnectionPool(sqlConfig);
+            pool.on('erro', err=>{console.error('sql error', err)});
+
+            try{
+                await pool.connect();
+                let request = pool.request();
+                for (let index in params) {
+                    request = request.input(params[index][0], mssql.NVarChar(8000), params[index][1])
+                }
+                let result1 = await request.execute(command);
+                //res.send(JSON.parse(result1.recordset[0].Structure));
+                return result1.recordset;
             }
-            let result1 = await request.execute(command);
-            return result1.recordset;
-        } catch (err) {
-            console.error(err);
-        }
+            catch (e) {
+                console.error('sql error' + e)
+            }
+
+
         finally {
-            mssql.close();
+            pool.close();
 
         }
 
