@@ -14,7 +14,7 @@ module.exports = {
                 }
                 let result1 = await request.query(command);
                 //res.send(JSON.parse(result1.recordset[0].Structure));
-                return result1.recordset;
+                return result1.recordsets;
             }
             catch (e) {
                 console.error('sql error' + e)
@@ -38,7 +38,7 @@ module.exports = {
                 }
                 let result1 = await request.execute(command);
                 //res.send(JSON.parse(result1.recordset[0].Structure));
-                return result1.recordset;
+                return result1.recordsets;
             }
             catch (e) {
                 console.error('sql error' + e)

@@ -2,166 +2,54 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var sql = require('../core/sql');
-
-
-
-
+var fs = require('fs')
 
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    var m =
-        {
-            id: 1,
-            title: 'پرسنلی',
-            categories: [
-                {
-                    id: 1,
-                    title: 'تعریف پرسنل',
-                    groups: [
-                        {
-                            id: 1,
-                            title: 'اطلاعات اولیه',
-                            groupInfo: {type: 'form'},
-                            questions: [
-                                {
-                                    id: 1,
-                                    title: 'نام',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }, {
-                                    id: 2,
-                                    title: 'فامیل',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }, {
-                                    id: 3,
-                                    title: 'تولد',
-                                    fieldInfo: {
-                                        name: 'date',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }, {
-                                    id: 4,
-                                    title: 'محل تولد',
-                                    fieldInfo: {
-                                        name: 'select',
-                                        style: null,
-                                        source: {
-                                            url: 'http://localhost/countries'
-                                        }
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            id: 2,
-                            title: 'اطلاعات پرسنلی',
-                            groupInfo: {type: 'form'},
-                            questions: [
-                                {
-                                    id: 1,
-                                    title: 'شماره پرسنلی',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }, {
-                                    id: 2,
-                                    title: 'سمت',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            id: 3,
-                            title: 'خودرو',
-                            groupInfo: {type: 'table'},
-                            questions: [
-                                {
-                                    id: 1,
-                                    title: 'نام',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: {
-                                            "background-color": "gray"
-                                        },
-                                        mask: ''
-                                    }
-                                }, {
-                                    id: 2,
-                                    title: 'مدل',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }, {
-                                    id: 3,
-                                    title: 'سازنده',
-                                    fieldInfo: {
-                                        name: 'text',
-                                        style: null,
-                                        mask: ''
-                                    }
-                                }
-                            ]
-                        }
-
-                    ]
-                },
-                {
-                    id: 2,
-                    title: 'گزارشات SPL',
-                    groups: []
-                }
-            ]
-        };
-
-    res.send(m)
+    res.send({})
 });
 router.get('/menu/:id', async function (req, res, next) {
-    var mn = {categories: []};
-
-    let dbMenu = await sql.exec("SPL.Structure_sp",
+    var mn = {id: req.params.id, categories: []};
+    let dbMenu =(await sql.exec("SPL.Structure_sp",
         ['kind', 'DataDictionary'],
         ['userid', '5371'],
         ['menuid', req.params.id],
         ['lng', 'fa'],
-        ['levelParam', 'all']);
-    let dt1 = new Date();
-    let dbCategories = (groupBy(dbMenu.filter(v => v.StructureType === 'C'), "ID"));
-    //console.log(getValue(groups[1198],'Caption'))
-    for (let dbCat in dbCategories) {
-        let cat = {groups: []};
-        cat.title = getValue(dbCategories[dbCat], 'Caption');
+        ['levelParam', 'all']))[0];
+    let dbCategories = (groupBy2(dbMenu.filter(v => v.StructureType === 'C'), "ID"));
+    for (let dbCat of dbCategories) {
+        let cat = {id: dbCat.key, groups: []};
+        cat.title = getValue(dbCat.items, 'Caption');
 
-        let dbGroups = (groupBy(dbMenu.filter(v => v.StructureType === 'G' && v.CategoryID === parseInt(dbCat)), "ID"));
-        for (let dbGroup in dbGroups) {
+        let dbGroups = (groupBy2(dbMenu.filter(v => v.StructureType === 'G' && v.CategoryID === parseInt(dbCat.key)), "ID"));
+        for (let dbGroup of dbGroups) {
             let group = {questions: []};
-            group.title = getValue(dbGroups[dbGroup], 'Caption');
-
-            let dbQuestions = (groupBy(dbMenu.filter(v => v.StructureType === 'A' && v.CategoryID === parseInt(dbCat) && v.GroupID === parseInt(dbGroup)), "ID"));
-            for (let dbQuestion in dbQuestions) {
+            group.title = getValue(dbGroup.items, 'Caption');
+            group.id = dbGroup.key;
+            console.log(group.id, cat.id)
+            group.groupInfo = {type: 'form'}
+            let dbQuestions = (groupBy2(dbMenu.filter(v => v.StructureType === 'A' && v.CategoryID === parseInt(dbCat.key) && v.GroupID === parseInt(dbGroup.key)), "ID"));
+            for (let dbQuestion of dbQuestions) {
                 let question = {};
-                question.title = getValue(dbQuestions[dbQuestion], 'Caption');
-                question.source = getValue(dbQuestions[dbQuestion], 'SourceID');
-                question.id = dbQuestion;
-                question.groupId = dbGroup;
-                question.categoryId = dbCat;
+                question.title = getValue(dbQuestion.items, 'Caption');
+                question.source = getValue(dbQuestion.items, 'SourceID');
+                let format = ',' + getValue(dbQuestion.items, 'Format') + ',';
+                question.id = dbQuestion.key;
+                question.groupId = dbGroup.key;
+                question.categoryId = dbCat.key;
                 question.menuId = req.params.id;
+                question.style = getValue(dbQuestion.items, 'Tool');
+                question.validation = [];
+                if(format.toLowerCase().indexOf(',op,') === -1)
+                    question.validation.push({name:'required'});
+                question.fieldInfo = {
+                    name: format.indexOf(',L,') >= 0 ? 'select' : 'text',
+                    source: {
+                        script: getValue(dbQuestion.items, 'SourceID')
+                    },
+                    style: question.style != null ? (eval('(function(){' + question.style.replace('js:', '') + '})()')) : null
+                };
 
                 group.questions.push(question);
             }
@@ -169,39 +57,62 @@ router.get('/menu/:id', async function (req, res, next) {
         }
         mn.categories.push(cat);
     }
-
-    console.log((new Date() - dt1))
-    res.send({menu : mn});
+    fs.readFile('flow.json', function (error, data) {
+        mn.categories[1].groups[0].flow = JSON.parse(data.toString());
+        res.send({menu: mn});
+    });
 });
-// router.get('/:id', async function (req, res, next) {
-//     let structure = await sql.exec("SPL.Structure_sp",
-//         ['kind', 'DataDictionary'],
-//         ['userid', '5371'],
-//         ['menuid', req.params.id],
-//         ['lng', 'fa'],
-//         ['levelParam', 'all']);
-//     //console.dir(structure);
-//
-//     res.send(structure);
-// });
+router.get('/report/:reportId/:fkId', async function (req, res, next){
+    let dbReportMeta = await sql.exec("pub.reportprint_sp",
+        ['kind', 'SelectReportFromSpl'],
+        ['id', req.params.reportId],
+        ['fk', req.params.fkId]);
+    let cmd = (dbReportMeta[2][0][""]);
+    let dbReportData = await sql.query(cmd.replace('{fk}',req.params.fkId).replace('{Language}','"fa"'));
+    let reportData = [[],[]]
+    for(let dbRep of dbReportData[0]){
+        reportData[0].push({
+            title:dbRep["ItemExpr"],
+            column:dbRep["ColumnIndex"],
+            row:dbRep["ItemPriority"],
+            value:' ----- '
+        })
+    }
+    res.send(reportData)
+});
+
+
 let flow = null;
-router.post('/group/flow',async function(req, res){
+router.post('/group/flow', async function (req, res) {
     flow = req.body;
+    fs.writeFile('flow.json', JSON.stringify(flow), function (error, data) {
+        console.log('successfully written')
+    });
     res.end();
 });
-router.get('/group/flow',async function(req, res){
-    res.send(flow);
-});
+router.get('/group/flow', async function (req, res) {
+    fs.readFile('flow.json', function (error, data) {
+        console.log(data.toString());
+        res.send(JSON.parse(data.toString()));
+    });
 
-router.post('/exec',async function(req, res){
+});
+router.post('/exec', async function (req, res) {
     let result = await sql.query(req.body.source);
     res.send(result);
 });
-var groupBy = function (xs, key) {
-    return xs.reduce(function (rv, x) {
-        (rv[x[key]] = rv[x[key]] || []).push(x);
-        return rv;
-    }, {});
+let groupBy2 = function (xs, key) {
+    let indices = {};
+    let result = [];
+    for (let i in xs) {
+        let qid = xs[i].ID;
+        if (indices[qid] == null) {
+            indices[qid] = result.length;
+            result.push({key: qid, items: []});
+        }
+        result[indices[qid]].items.push(xs[i]);
+    }
+    return result;
 };
 var getValue = function (list, what) {
     for (var x of list)

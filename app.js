@@ -1,20 +1,20 @@
-var express = require('express');
-var cors = require('cors')
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
+let express = require('express');
+let cors = require('cors')
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let bodyParser = require('body-parser');
 
-var swaggerUi = require('swagger-ui-express');
-var swaggerDocument = require('./swagger.json');
+let swaggerUi = require('swagger-ui-express');
+let swaggerDocument = require('./swagger.json');
 
-var authRouter = require('./routes/auth');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var termRouter = require('./routes/term');
-var splRouter = require('./routes/spl');
+let authRouter = require('./routes/auth');
+let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
+let termRouter = require('./routes/term');
+let splRouter = require('./routes/spl');
 
-var app = express();
+let app = express();
 
 app.use(logger('dev'));
 app.use(cors());
