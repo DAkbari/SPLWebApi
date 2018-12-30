@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
 });
 router.get('/menu/:id', async function (req, res, next) {
     var mn = {id: req.params.id, categories: []};
-    let dbMenu =(await sql.exec("SPL.Structure_sp",
+    let dbMenu = (await sql.exec("SPL.Structure_sp",
         ['kind', 'DataDictionary'],
         ['userid', '5371'],
         ['menuid', req.params.id],
@@ -41,8 +41,8 @@ router.get('/menu/:id', async function (req, res, next) {
                 question.menuId = req.params.id;
                 question.style = getValue(dbQuestion.items, 'Tool');
                 question.validation = [];
-                if(format.toLowerCase().indexOf(',op,') === -1)
-                    question.validation.push({name:'required'});
+                if (format.toLowerCase().indexOf(',op,') === -1)
+                    question.validation.push({name: 'required'});
                 question.fieldInfo = {
                     name: format.indexOf(',L,') >= 0 ? 'select' : 'text',
                     source: {
@@ -58,24 +58,25 @@ router.get('/menu/:id', async function (req, res, next) {
         mn.categories.push(cat);
     }
     fs.readFile('flow.json', function (error, data) {
-        mn.categories[1].groups[0].flow = JSON.parse(data.toString());
+       // mn.categories[1].groups[0].flow = JSON.parse(data.toString());
         res.send({menu: mn});
     });
 });
-router.get('/report/:reportId/:fkId', async function (req, res, next){
+router.get('/report/:reportId/:fkId', async function (req, res, next) {
     let dbReportMeta = await sql.exec("pub.reportprint_sp",
         ['kind', 'SelectReportFromSpl'],
         ['id', req.params.reportId],
         ['fk', req.params.fkId]);
     let cmd = (dbReportMeta[2][0][""]);
-    let dbReportData = await sql.query(cmd.replace('{fk}',req.params.fkId).replace('{Language}','"fa"'));
-    let reportData = [[],[]]
-    for(let dbRep of dbReportData[0]){
+    let dbReportData = await sql.query(cmd.replace('{fk}', req.params.fkId).replace('{Language}', '"fa"'));
+    let reportData = [[], []]
+    for (let dbRep of dbReportData[0]) {
+        let value = dbReportData[1].filter(f => f.ID.toString() === dbRep.ID.toString())
         reportData[0].push({
-            title:dbRep["ItemExpr"],
-            column:dbRep["ColumnIndex"],
-            row:dbRep["ItemPriority"],
-            value:' ----- '
+            title: dbRep["ItemExpr"],
+            columnSpacing: dbRep["ItemHZSpace"],
+            row: dbRep["ItemPriority"],
+            value: value.length > 0 ? value[0].Result : '----'
         })
     }
     res.send(reportData)
@@ -91,8 +92,8 @@ router.post('/group/flow', async function (req, res) {
     res.end();
 });
 router.get('/group/flow', async function (req, res) {
-    fs.readFile('flow.json', function (error, data) {
-        console.log(data.toString());
+    fs.readFile('./webapi/flow.json', function (error, data) {
+        console.log(error);
         res.send(JSON.parse(data.toString()));
     });
 

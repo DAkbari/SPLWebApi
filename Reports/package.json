@@ -1,0 +1,21 @@
+{
+  "name": "reports",
+  "version": "1.0.0",
+  "description": "Reports module for the software product line",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "stimulsoft-reports-js": "^2018.3.4"
+  }
+}

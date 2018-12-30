@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/site.css">
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Report</title>
+
+</head>
+<body>
+<div class="container report-body">
+
+    <div class="report-footer">
+        footer
+    </div>
+    <% for (let row of model.getRows()){ %>
+        <div class="row field-row">
+            <% for(let field of model.getFieldsByRow(row)){ %>
+                <div class="<%= field.getColMdSpace() %> field">
+                    <div class="title">
+                        <div><%= field.title %></div>
+                    </div>
+                    <div class="body">
+                        <div><%= field.value %></div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+
+    <% for (let row of model.getRows()){ %>
+        <div class="row field-row">
+            <% for(let field of model.getFieldsByRow(row)){ %>
+                <div class="<%= field.getColMdSpace() %> field">
+                    <div class="title">
+                        <div><%= field.title %></div>
+                    </div>
+                    <div class="body">
+                        <div><%= field.value %></div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+
+</div>
+
+</body>
+</html>

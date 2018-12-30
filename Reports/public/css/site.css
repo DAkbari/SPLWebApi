@@ -1,0 +1,57 @@
+.field-row {
+    border: 0px solid lightgray;
+    padding: 0px;
+    margin: 0px;
+}
+
+.field {
+    padding: 8px;
+    border: 1px solid lightgray;
+}
+
+.field-row .field:first-child {
+    padding: 8px;
+    border-right: 0px;
+}
+
+.field-row .field:last-child {
+    padding: 8px;
+    border-left: 0px;
+}
+
+.field-row:first-child .field {
+    border-top: 0px;
+}
+
+.field-row:last-child .field {
+    border-bottom: 0px;
+}
+
+.field .title {
+    font-family: "b yekan";
+    font-size: small;
+    color: gray;
+}
+
+.field .body {
+    font-family: "b koodak";
+    font-size: large;
+}
+
+    @page {
+        size: A4;
+        margin: 1cm 1cm 1cm;
+    }
+    div.report-footer {
+        position: fixed;
+        height: 2cm;
+        bottom: 0;
+        right:0;
+        left:0;
+        background: green;
+    }
+    div.report-body{
+        background: red;
+    }
+
+

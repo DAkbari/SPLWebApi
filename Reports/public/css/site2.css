@@ -1,0 +1,34 @@
+@media all {
+    .page-break {
+        display: none;
+    }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 1cm;
+    }
+
+    .page-break {
+        display: block;
+        page-break-before: always;
+    }
+}
+
+@media print {
+    body {
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+        font-size: 1em;
+        color: #333333;
+        margin-top: 2cm;
+        margin-right: 2cm;
+        margin-bottom: 1.5cm;
+        margin-left: 2cm
+    }
+
+    div.divFooter {
+        position: fixed;
+        bottom: 0;
+    }
+}
