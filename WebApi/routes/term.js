@@ -91,6 +91,8 @@ router.post('/Class/InsertExt', async function (req, res, next) {
     let searchResult = await sqlInterface.exec(spName,
         ['kind', 'InsertExt'],
         ['ID', req.body.ClassID],
+        ['IsMultiSelect', req.body.IsMultiSelect],
+        ['IsRequired', req.body.IsRequired],
         ['Property', req.body.Property],
         ['DataType', req.body.DataType]);
     res.send(searchResult[0]);
@@ -108,6 +110,8 @@ router.post('/Class/UpdateExt', async function (req, res, next) {
     let searchResult = await sqlInterface.exec(spName,
         ['kind', 'UpdateExt'],
         ['Property', req.body.Property],
+        ['IsMultiSelect', req.body.IsMultiSelect],
+        ['IsRequired', req.body.IsRequired],
         ['DataType', req.body.DataType],
         ['ID', req.body.ID]);
     res.send(searchResult[0]);
@@ -124,13 +128,12 @@ router.delete('/Class/DeleteExt/:id', async function (req, res, next) {
         ['ID', req.params.id]);
     res.send(searchResult[0]);
 });
-module.exports = router;
 
 
 
 
 ////////////////////////
-//SP Name:  Class
+//SP Name:  Term
 //Kind:     Select
 //Name:     the name of the class to search for
 ////////////////////////
@@ -144,3 +147,35 @@ router.post('/Term/Select', async function (req, res, next) {
     console.log(searchResult)
     res.send(searchResult[0]);
 });
+////////////////////////
+//SP Name:      Term
+//Kind:         InsertUpdate
+//ClassID:      the Id of the class to add term to
+//Value:       the string of the propertyid,value pairs
+//Name:         the Name of the new/edited term
+//ID            0 for inserts|| >0 for updates
+////////////////////////
+router.post('/Term/InsertUpdate', async function (req, res, next) {
+    console.log(req.body)
+    let searchResult = await sqlInterface.exec(spTermName,
+        ['kind', 'InsertUpdate'],
+        ['ID', req.body.ID],
+        ['ClassID', req.body.ClassID],
+        ['Value', req.body.Value],
+        ['Name', req.body.Name]);
+    res.send(searchResult[0]);
+});
+
+////////////////////////
+//SP Name:  Term
+//Kind:     Delete
+//ID:       the Id of the Term to delete
+////////////////////////
+router.delete('/Term/Delete/:id', async function (req, res, next) {
+    let searchResult = await sqlInterface.exec(spTermName,
+        ['kind', 'Delete'],
+        ['ID', req.params.id]);
+    res.send(searchResult[0]);
+});
+
+module.exports = router;
