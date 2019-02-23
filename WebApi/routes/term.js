@@ -27,6 +27,22 @@ router.post('/Class/Select', async function (req, res, next) {
 
 });
 
+
+////////////////////////
+//SP Name:  Class
+//Kind:     Select
+//Name:     the name of the class to search for
+////////////////////////
+router.get('/Class/SelectClassEntity', async function (req, res, next) {
+    try {
+        let dbResult = await sqlInterface.exec(spName,
+            ['kind', 'SelectClassEntity']);
+        res.send(dbResult[0]);
+    } catch (e) {
+        req.error(e)
+    }
+
+});
 ////////////////////////
 //SP Name:  Class
 //Kind:     SelectPropertyRecommend
@@ -104,6 +120,7 @@ router.delete('/Class/Delete/:id', async function (req, res, next) {
 //SP Name:  Class
 //Kind:     SelectEx
 //ID:       the id of the class to search for its properties
+//PS:       5=>menu,
 ////////////////////////
 router.get('/Class/SelectEx/:id', async function (req, res, next) {
     try {
