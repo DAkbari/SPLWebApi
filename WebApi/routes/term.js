@@ -148,7 +148,7 @@ router.post('/Class/InsertEx', async function (req, res, next) {
             ['ID', req.body.ClassID],
             ['IsMultiSelect', req.body.IsMultiSelect],
             ['IsSearchable', req.body.IsSearchable],
-            ['IsID', req.body.IsID],
+            ['IsReferralID', req.body.IsID],
             ['IsRequired', req.body.IsRequired],
             ['Property', req.body.Property],
             ['DataType', req.body.DataType]);
