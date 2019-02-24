@@ -174,7 +174,8 @@ router.post('/Class/UpdateEx', async function (req, res, next) {
             ['Property', req.body.Property],
             ['IsMultiSelect', req.body.IsMultiSelect],
             ['IsSearchable', req.body.IsSearchable],
-            ['IsID', req.body.IsID],
+            ['IsReferralID', req.body.IsID],
+            ['IsIdentity', req.body.IsIdentity],
             ['IsRequired', req.body.IsRequired],
             ['DataType', req.body.DataType],
             ['ID', req.body.ID]);

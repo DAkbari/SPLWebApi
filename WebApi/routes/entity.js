@@ -116,7 +116,17 @@ router.post('/InsertUpdate', async function (req, res, next) {
         req.error(e)
     }
 });
-
+router.post('/InsertSimilar', async function (req, res, next) {
+    try {
+        let dbResult = await sqlInterface.exec(spName,
+            ['kind', 'InsertSimilar'],
+            ['ID', req.body.ID],
+            ['ParentId', req.body.ParentId]);
+        res.send(dbResult[0]);
+    } catch (e) {
+        req.error(e)
+    }
+});
 
 ////////////////////////
 //SP Name:  Class
