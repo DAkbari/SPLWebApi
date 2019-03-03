@@ -15,6 +15,7 @@ let usersRouter = require('./routes/users');
 let termRouter = require('./routes/term');
 let entityRouter = require('./routes/entity');
 let splRouter = require('./routes/spl');
+let algorithmRouter = require('./routes/algorithm');
 
 let app = express();
 
@@ -34,6 +35,7 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/term', termRouter);
 app.use('/api/v1/entity', entityRouter);
 app.use('/api/v1/spl', splRouter);
+app.use('/api/v1/algorithm', algorithmRouter);
 
 module.exports = app;
 
