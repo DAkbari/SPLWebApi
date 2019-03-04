@@ -13,5 +13,16 @@ router.get('/SelectMethods', async function (req, res, next) {
     }
 
 });
+router.get('/Navigate/:CategoryId', async function (req, res, next) {
+    try {
+        console.log(req.params)
+        let dbResult = await sqlInterface.exec(spName,
+            ['kind', 'Navigate'],
+            ['ID', req.params.CategoryId]);
+        res.send(dbResult[0]);
+    } catch (e) {
+        req.error(e)
+    }
 
+});
 module.exports = router;
